@@ -1,0 +1,187 @@
+<div class="phone" role="group" aria-label="Trifold app preview">
+  <div class="phone__screen">
+    <div class="seg" role="group" aria-label="Preview mode">
+      <button
+        type="button"
+        [attr.aria-pressed]="mode() === 'personal'"
+        (click)="setMode('personal')"
+      >
+        Personal
+      </button>
+      <button
+        type="button"
+        [attr.aria-pressed]="mode() === 'household'"
+        (click)="setMode('household')"
+      >
+        Household
+      </button>
+    </div>
+
+    <!-- Personal view -->
+    @if (mode() === 'personal') {
+      <div>
+        <div class="screen__eyebrow">September 2026</div>
+        <div class="screen__title">Your Balance</div>
+        <div class="panel">
+          <div class="donut" style="--pct: 34">
+            <div class="donut__center" aria-hidden="true">
+              <div class="donut__pct">34%</div>
+              <div class="donut__label">of budget</div>
+            </div>
+            <span class="sr-only">34 percent of budget spent</span>
+          </div>
+          <div class="split">
+            <div>
+              <span class="split__dot"><i class="dot dot--orange"></i>Spent</span>
+              <div class="split__amt">MX$6,540</div>
+            </div>
+            <div class="split__divider"></div>
+            <div>
+              <span class="split__dot"><i class="dot dot--green"></i>Remaining</span>
+              <div class="split__amt">MX$12,960</div>
+            </div>
+          </div>
+        </div>
+        <div class="roster">
+          <div class="person">
+            <span class="person__chip person__chip--d">D</span>
+            <div class="person__meta">
+              <div class="person__name">Your Monthly Spending</div>
+              <div class="person__sub">19% of monthly budget</div>
+            </div>
+            <span class="person__amt">MX$6,540</span>
+          </div>
+        </div>
+        <div class="splitbar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="splitlegend" aria-hidden="true">
+          <span>Needs 50%</span>
+          <span>Wants 30%</span>
+          <span>Savings 20%</span>
+        </div>
+      </div>
+    } @else {
+      <!-- Household view -->
+      <div>
+        <div class="screen__eyebrow">September 2026</div>
+        <div class="screen__title">Household Balance</div>
+        <div class="panel">
+          <div class="donut" style="--pct: 22">
+            <div class="donut__center" aria-hidden="true">
+              <div class="donut__pct">22%</div>
+              <div class="donut__label">of budget</div>
+            </div>
+            <span class="sr-only">22 percent of budget spent</span>
+          </div>
+          <div class="split">
+            <div>
+              <span class="split__dot"><i class="dot dot--orange"></i>Spent</span>
+              <div class="split__amt">MX$8,370</div>
+            </div>
+            <div class="split__divider"></div>
+            <div>
+              <span class="split__dot"><i class="dot dot--green"></i>Remaining</span>
+              <div class="split__amt">MX$29,630</div>
+            </div>
+          </div>
+        </div>
+        <div class="roster">
+          <div class="person">
+            <span class="person__chip person__chip--d">D</span>
+            <div class="person__meta">
+              <div class="person__name">Daniela's Spending</div>
+              <div class="person__sub">0% of household spend</div>
+            </div>
+            <span class="person__amt">MX$4,120</span>
+          </div>
+          <div class="person">
+            <span class="person__chip person__chip--r">R</span>
+            <div class="person__meta">
+              <div class="person__name">Raúl's Spending</div>
+              <div class="person__sub">0% of household spend</div>
+            </div>
+            <span class="person__amt">MX$4,250</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="actions">
+      <div class="action">
+        <span class="action__icon ai--purple">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+          </svg>
+        </span>
+        Add Expense
+      </div>
+      <div class="action">
+        <span class="action__icon ai--orange">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M4 8h13m0 0-3-3m3 3-3 3M20 16H7m0 0 3-3m-3 3 3 3"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+        Split Cost
+      </div>
+      <div class="action">
+        <span class="action__icon ai--green">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 19V11M12 19V5M19 19v-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+          </svg>
+        </span>
+        Reports
+      </div>
+      <div class="action">
+        <span class="action__icon ai--ink">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M9 12a4 4 0 1 0 4-4m-1.5 8a4 4 0 1 0-4-4"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        Invite
+      </div>
+    </div>
+
+    <div class="tabbar" aria-hidden="true">
+      <span class="tab tab--active">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1v-8z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Home
+      </span>
+      <span class="tab">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 17c3-1 5-7 8-7s4 4 8 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        Graphs
+      </span>
+      <span class="tab">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2" />
+          <path d="M3 10h18" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Spendings
+      </span>
+      <span class="tab">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="2" />
+          <path d="M5 20c1.4-3 4-4.4 7-4.4s5.6 1.4 7 4.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        Profile
+      </span>
+    </div>
+  </div>
+</div>

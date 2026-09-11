@@ -1,0 +1,42 @@
+<form
+  class="form"
+  [class.form--centered]="variant() === 'centered'"
+  #form
+  (submit)="onSubmit($event, form)"
+  novalidate
+>
+  <input
+    type="email"
+    name="email"
+    placeholder="you@email.com"
+    required
+    aria-label="Email address"
+  />
+  <button class="btn" type="submit" [disabled]="sending()">
+    {{ sending() ? 'Joining…' : 'Join waitlist' }}
+  </button>
+
+  <!-- Honeypot: invisible to humans, catches spam bots -->
+  <input
+    class="honeypot"
+    type="checkbox"
+    name="botcheck"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+  <input type="hidden" name="access_key" value="aa87c335-3800-48a3-90c5-1c83fa9d676e" />
+  <input type="hidden" name="subject" value="Trifold waitlist signup" />
+  <input type="hidden" name="from_name" value="Trifold landing page" />
+
+  @if (message()) {
+    <p
+      class="msg"
+      [class.msg--ok]="sent()"
+      [class.msg--err]="failed()"
+      role="status"
+    >
+      {{ message() }}
+    </p>
+  }
+</form>

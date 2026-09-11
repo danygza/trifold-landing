@@ -1,0 +1,179 @@
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <rect x="8" y="14" width="48" height="10" rx="5" fill="#7b5cf5" />
+          <rect x="8" y="28" width="48" height="10" rx="5" fill="#7b5cf5" />
+          <rect x="8" y="42" width="30" height="10" rx="5" fill="#7b5cf5" />
+        </svg>
+      </span>
+      Trifold
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="nav__cta" href="#waitlist">Join waitlist</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div>
+        <span class="badge">Launching early 2027 — waitlist open</span>
+        <h1>Shared finances, <em>simplified.</em></h1>
+        <p class="hero__sub">
+          Trifold gives you and your partner one calm place for money:
+          an automatic <strong>50–30–20 split</strong>, a personal balance for
+          each of you, and a <strong>household balance</strong> you both trust.
+        </p>
+        <app-waitlist-form />
+        <p class="hero__note">
+          Free during beta · All countries &amp; currencies · English &amp; Español
+        </p>
+      </div>
+
+      <app-phone-preview />
+    </div>
+  </section>
+
+  <!-- ===== Stats ===== -->
+  <section class="stats">
+    <div class="container stats__inner">
+      <div class="stat">
+        <b>50 · 30 · 20</b>
+        <span>auto-split into Needs, Wants &amp; Savings</span>
+      </div>
+      <div class="stat">
+        <b>2 views</b>
+        <span>personal balance &amp; household balance</span>
+      </div>
+      <div class="stat">
+        <b>EN / ES</b>
+        <span>built bilingual from day one</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="section" id="features">
+    <div class="container">
+      <p class="eyebrow">Your budget</p>
+      <h2 class="h2">Make a plan that works for both of you.</h2>
+      <p class="sub">
+        No category mazes, no guilt dashboards. Trifold keeps money simple:
+        one rule, two views, and every expense in its place.
+      </p>
+      <div class="features">
+        @for (feature of features; track feature.title) {
+          <article class="card">
+            <div class="card__icon" [style.background]="tint(feature.tint).bg" [style.color]="tint(feature.tint).fg">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                @switch (feature.icon) {
+                  @case ('globe') {
+                    <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2.2" />
+                    <path
+                      d="M12 3.5v17M5 8.5c2.2 1.2 4.6 1.8 7 1.8s4.8-.6 7-1.8M5 15.5c2.2-1.2 4.6-1.8 7-1.8s4.8.6 7 1.8"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    />
+                  }
+                  @case ('pair') {
+                    <circle cx="9" cy="9" r="4.2" stroke="currentColor" stroke-width="2.2" />
+                    <circle cx="15.5" cy="15.5" r="3.8" stroke="currentColor" stroke-width="2.2" />
+                  }
+                  @case ('split') {
+                    <path
+                      d="M4 8h13m0 0-3-3m3 3-3 3M20 16H7m0 0 3-3m-3 3 3 3"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  }
+                  @case ('plus') {
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                  }
+                  @case ('chart') {
+                    <path d="M5 19V11M12 19V5M19 19v-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                  }
+                  @case ('coin') {
+                    <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2.2" />
+                    <path
+                      d="M12 7.5v9M9.2 10c.5-1 1.5-1.6 2.8-1.6 1.7 0 2.8.9 2.8 2.1 0 2.8-5.6 1.6-5.6 4.4 0 1.2 1.1 2.1 2.8 2.1 1.3 0 2.3-.6 2.8-1.6"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                  }
+                }
+              </svg>
+            </div>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.text }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section class="how section" id="how">
+    <div class="container">
+      <p class="eyebrow">How it works</p>
+      <h2 class="h2">Three steps to a budget you'll keep.</h2>
+      <p class="sub">Setup takes about five minutes — most of it is choosing your currency.</p>
+      <div class="steps">
+        @for (step of steps; track step.num) {
+          <div class="step">
+            <div class="step__num">{{ step.num }}</div>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="h2">Questions, answered.</h2>
+      <div class="faq">
+        @for (faq of faqs; track faq.q; let i = $index) {
+          <details [open]="openFaq() === i">
+            <summary (click)="toggleFaq(i); $event.preventDefault()">
+              {{ faq.q }}
+            </summary>
+            <p>{{ faq.a }}</p>
+          </details>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Final CTA ===== -->
+  <section class="cta" id="waitlist">
+    <div class="container cta__inner">
+      <p class="eyebrow">Waitlist</p>
+      <h2 class="h2">Be first in the fold.</h2>
+      <p class="sub">Join the waitlist and get founder pricing when Trifold launches.</p>
+      <app-waitlist-form variant="centered" />
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <span>© {{ year }} Trifold Budget App</span>
+    <span>
+      Designed &amp; built by
+      <a href="https://dg-development.netlify.app" target="_blank" rel="noopener noreferrer">Daniela Garza</a>
+    </span>
+  </div>
+</footer>

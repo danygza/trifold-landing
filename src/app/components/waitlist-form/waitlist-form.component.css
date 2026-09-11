@@ -1,0 +1,56 @@
+.form {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 470px;
+}
+
+.form input[type='email'] {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  font: inherit;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.form input[type='email']:focus {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+  border-color: transparent;
+  background: #fff;
+}
+
+.form--centered {
+  margin: 0 auto;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.msg {
+  flex: 0 0 100%; /* own line below input + button, never squeezes them */
+  margin-top: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.msg--ok {
+  color: var(--green);
+}
+
+.msg--err {
+  color: #c0392b;
+}
+
+@media (max-width: 900px) {
+  .form {
+    flex-direction: column;
+  }
+}

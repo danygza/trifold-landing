@@ -1,0 +1,121 @@
+/* ===== Trifold landing — design tokens lifted from the app ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --purple: #7b5cf5;
+  --purple-deep: #6a4be0;
+  --purple-soft: #f3f0ff;
+  --purple-border: #ddd2fb;
+  --ink: #171422;
+  --gray: #8a8798;
+  --gray-soft: #b6b3c2;
+  --surface: #f7f6f9;
+  --line: #eceaf2;
+  --orange: #e9a23b;
+  --orange-soft: #fdf3e3;
+  --green: #3e9b6f;
+  --green-soft: #e6f4ee;
+  --white: #ffffff;
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-btn: 18px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+.container {
+  width: min(1080px, 100% - 48px);
+  margin-inline: auto;
+}
+
+section {
+  scroll-margin-top: 86px;
+}
+
+.eyebrow {
+  color: var(--purple);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.btn {
+  background: var(--purple);
+  color: #fff;
+  border: 0;
+  padding: 15px 26px;
+  border-radius: var(--radius-btn);
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--purple-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(123, 92, 245, 0.32);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
