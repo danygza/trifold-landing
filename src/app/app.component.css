@@ -254,9 +254,15 @@
 }
 
 /* ===== FAQ ===== */
+#faq .eyebrow,
+#faq .h2 {
+  text-align: center;
+}
+
 .faq {
   max-width: 720px;
   margin-top: 40px;
+  margin-inline: auto; /* center the accordion under the heading */
 }
 
 .faq details {
