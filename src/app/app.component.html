@@ -170,6 +170,7 @@
       <a href="/privacy.html">Privacy</a>
       <a href="/contact.html">Contact</a>
       <a href="/unsubscribe.html">Leave the waitlist</a>
+      <button class="footer-preferences" type="button" (click)="openAnalyticsPreferences()">Analytics preferences</button>
     </nav>
     <span>
       Designed &amp; built by
@@ -178,12 +179,15 @@
   </div>
 </footer>
 
-<section class="analytics-choice container" aria-labelledby="analytics-title">
-  <h2 id="analytics-title">Optional analytics</h2>
-  <p>Allow PostHog to measure visits and signup completion? Email addresses are excluded, and session recording is off. <a href="/privacy.html">Privacy details</a></p>
-  <div class="analytics-actions">
-    <button class="btn" type="button" (click)="setAnalytics(true)" [attr.aria-pressed]="analytics.choice() === 'accepted'">Allow analytics</button>
-    <button class="secondary-btn" type="button" (click)="setAnalytics(false)" [attr.aria-pressed]="analytics.choice() === 'declined'">No thanks</button>
-  </div>
-  <p role="status">{{ analytics.choice() === 'accepted' ? 'Optional analytics enabled.' : analytics.choice() === 'declined' ? 'Optional analytics disabled.' : 'Analytics stays off until you choose.' }}</p>
-</section>
+@if (showAnalyticsBanner()) {
+  <section class="analytics-banner" aria-labelledby="analytics-title">
+    <div class="analytics-banner__copy">
+      <h2 id="analytics-title">Your privacy choices</h2>
+      <p>Allow optional analytics to help improve Trifold? Email addresses are excluded and session recording is off. <a href="/privacy.html">Privacy details</a></p>
+    </div>
+    <div class="analytics-actions">
+      <button class="btn" type="button" (click)="setAnalytics(true)">Allow analytics</button>
+      <button class="secondary-btn" type="button" (click)="setAnalytics(false)">No thanks</button>
+    </div>
+  </section>
+}

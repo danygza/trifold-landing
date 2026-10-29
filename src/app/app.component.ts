@@ -12,7 +12,12 @@ import { WaitlistFormComponent } from './components/waitlist-form/waitlist-form.
 })
 export class AppComponent {
   readonly analytics = inject(AnalyticsService);
-  setAnalytics(allowed: boolean): void { this.analytics.setConsent(allowed); }
+  readonly showAnalyticsBanner = signal(this.analytics.choice() === 'unknown');
+  setAnalytics(allowed: boolean): void {
+    this.analytics.setConsent(allowed);
+    this.showAnalyticsBanner.set(false);
+  }
+  openAnalyticsPreferences(): void { this.showAnalyticsBanner.set(true); }
   readonly year = new Date().getFullYear();
   readonly features = [
     {

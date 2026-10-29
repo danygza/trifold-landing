@@ -374,10 +374,34 @@
 .nav__links a, .footer__links a { display: inline-flex; align-items: center; min-height: 44px; }
 .footer__links { display: flex; flex-wrap: wrap; gap: 20px; }
 .faq summary { min-height: 44px; }
-.analytics-choice { padding-block: 24px 40px; }
-.analytics-choice h2 { font-size: 1.1rem; }
-.analytics-choice p { margin-block: 12px; }
-.analytics-choice a { text-decoration: underline; }
+/* Non-modal consent banner; the footer keeps preferences available afterwards. */
+.analytics-banner {
+ position: fixed;
+ inset: auto 16px max(16px, env(safe-area-inset-bottom));
+ z-index: 80;
+ max-width: 1080px;
+ margin-inline: auto;
+ padding: 20px 24px;
+ display: flex;
+ align-items: center;
+ gap: 24px;
+ background: var(--white);
+ border: 1px solid var(--line);
+ border-radius: 20px;
+ box-shadow: 0 12px 48px rgba(23, 20, 34, .18);
+ max-height: 50svh;
+ overflow-y: auto;
+}
+.analytics-banner__copy { flex: 1; min-width: 0; }
+.analytics-banner h2 { font-size: 1rem; line-height: 1.3; }
+.analytics-banner p { margin-top: 6px; font-size: .88rem; color: var(--gray); line-height: 1.5; }
+.analytics-banner a { color: var(--ink); text-decoration: underline; white-space: nowrap; }
+.footer-preferences { background: none; border: 0; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 3px; min-height: 44px; cursor: pointer; padding: 0; }
+@media (max-width: 700px) {
+ .analytics-banner { inset-inline: 12px; padding: 16px; flex-direction: column; align-items: stretch; gap: 12px; }
+ .analytics-banner .analytics-actions { flex-wrap: nowrap; }
+ .analytics-banner .btn, .analytics-banner .secondary-btn { flex: 1; padding: 12px 10px; font-size: .85rem; }
+}
 .analytics-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .secondary-btn { padding: 12px 20px; border: 1px solid var(--gray); border-radius: 14px; background: #fff; color: var(--ink); font: inherit; min-height: 44px; cursor: pointer; }
 @media (max-width: 900px) {

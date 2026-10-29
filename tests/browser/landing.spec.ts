@@ -53,10 +53,16 @@ test('initial content and removal instructions work without JavaScript',async ({
  await context.close();
 });
 
-test('optional analytics has an explicit choice and does not block signup',async ({page})=>{
- await page.goto('/');await expect(page.getByText('Analytics stays off until you choose.')).toBeVisible();
- await page.getByRole('button',{name:'No thanks',exact:true}).click();await page.reload();
- await expect(page.getByText('Optional analytics disabled.')).toBeVisible();
- await page.getByRole('button',{name:'Allow analytics',exact:true}).click();
- await expect(page.getByText('Optional analytics enabled.')).toBeVisible();
+test('analytics banner remembers a choice and preferences can reopen it',async ({page})=>{
+ await page.goto('/');
+ const banner=page.getByRole('region',{name:'Your privacy choices'});
+ await expect(banner).toBeVisible();
+ await banner.getByRole('button',{name:'No thanks',exact:true}).click();
+ await expect(banner).toHaveCount(0);
+ await page.reload();await expect(banner).toHaveCount(0);
+ await page.getByRole('button',{name:'Analytics preferences',exact:true}).click();
+ await expect(banner).toBeVisible();
+ await banner.getByRole('button',{name:'Allow analytics',exact:true}).click();
+ await expect(banner).toHaveCount(0);
+ await page.reload();await expect(banner).toHaveCount(0);
 });
