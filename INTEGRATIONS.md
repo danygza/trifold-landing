@@ -65,3 +65,9 @@ Deploy by linking the Git repository to Netlify (or using a Netlify CLI deploy t
 - https://posthog.com/docs/libraries/js/config
 - https://docs.netlify.com/build/functions/api/
 - https://www.netlify.com/blog/how-to-rate-limit-ai-features-and-avoid-surprise-costs/
+
+## Owner signup notifications (no domain yet)
+
+Set `RESEND_NOTIFY_EMAIL` in Netlify to the email used to create the Resend account, with Functions scope (or All scopes) and Production context. Keep `RESEND_FROM_EMAIL` unset to keep subscriber welcome emails disabled. Redeploy after changing the variable. New contacts then trigger an internal alert using `onboarding@resend.dev`; Resend restricts that sender to the account owner's email. A verified sender is required before sending to other addresses.
+
+The notification contains no subscriber address; check the Trifold segment in Resend for details. Existing contacts do not trigger alerts. Alerts are best effort after the contact is saved: failures are logged without undoing the signup, and there is no automatic retry queue. Check Resend email logs and the inbox to confirm delivery. This temporary test-domain arrangement is not a substitute for a verified production sender.

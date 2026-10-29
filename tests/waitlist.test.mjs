@@ -110,3 +110,29 @@ test('only POST accepted and platform rate limit configured', async () => {
   assert.equal((await handler(new Request('https://trifold.example/'))).status, 405);
   assert.deepEqual(config.rateLimit, { windowLimit: 5, windowSize: 60, aggregateBy: ['ip'] });
 });
+
+const notifyEnv = { RESEND_API_KEY: 'test-secret', RESEND_SEGMENT_ID: 'waitlist-segment', RESEND_NOTIFY_EMAIL: 'owner@example.com' };
+test('owner alert works without enabling subscriber welcome emails', async () => {
+  const { handler, calls } = setup([response(404, {}), response(200, { id: 'contact-1' }), response(200, { id: 'owner-email' })], notifyEnv);
+  assert.equal((await handler(req())).status, 200);
+  assert.equal(calls.length, 3);
+  const sent = JSON.parse(calls[2].body);
+  assert.deepEqual(sent.to, ['owner@example.com']);
+  assert.equal(sent.from, 'Trifold <onboarding@resend.dev>');
+  assert.ok(!sent.text.includes('user@example.com'));
+  assert.equal(calls[2].headers['Idempotency-Key'], 'trifold-owner/contact-1');
+});
+test('failed owner alert preserves saved signup', async () => {
+  const { handler } = setup([response(404, {}), response(200, { id: 'contact-1' }), response(403, {})], notifyEnv);
+  assert.equal((await handler(req())).status, 200);
+});
+test('repeated signup sends no owner alert', async () => {
+  const { handler, calls } = setup([response(200, { id: 'contact-1', unsubscribed: false }), response(200, {})], notifyEnv);
+  assert.equal((await handler(req())).status, 200);
+  assert.equal(calls.length, 2);
+});
+test('failed contact persistence sends no owner alert', async () => {
+  const { handler, calls } = setup([response(404, {}), response(500, {})], notifyEnv);
+  assert.equal((await handler(req())).status, 502);
+  assert.equal(calls.length, 2);
+});

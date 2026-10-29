@@ -60,24 +60,38 @@ export function createHandler({ env = process.env, request = fetch } = {}) {
       const contact = await created.json();
       if (!created.ok || !contact.id) throw new Error('save_failed');
 
-      // Contact persistence determines success. Receipt failures must not lose signups.
-      if (env.RESEND_FROM_EMAIL) {
+      // Email delivery must not undo a persisted signup. Send independent alerts
+      // concurrently so adding an owner alert does not extend the signup timeout.
+      async function sendEmail(payload, key, kind) {
         try {
-          const hash = createHash('sha256').update(email).digest('hex');
-          const receipt = await resend('/emails', {
+          const sent = await resend('/emails', {
             method: 'POST',
-            headers: { 'Idempotency-Key': `trifold-welcome/${hash}` },
-            body: JSON.stringify({
-              from: env.RESEND_FROM_EMAIL, to: [email],
-              ...(env.RESEND_REPLY_TO ? { reply_to: env.RESEND_REPLY_TO } : {}),
-              subject: "You're on the Trifold waitlist",
-              text: "Thanks for joining the Trifold waitlist! We'll email you when early access is available.\n\nTrifold — shared finances, simplified.",
-            }),
+            headers: { 'Idempotency-Key': key },
+            body: JSON.stringify(payload),
           });
-          const result = await receipt.json();
-          if (!receipt.ok || !result.id) console.warn('Trifold waitlist receipt failed');
-        } catch { console.warn('Trifold waitlist receipt failed'); }
+          const result = await sent.json();
+          if (!sent.ok || !result.id) console.warn(`Trifold waitlist ${kind} failed`);
+        } catch { console.warn(`Trifold waitlist ${kind} failed`); }
       }
+      const deliveries = [];
+      if (env.RESEND_NOTIFY_EMAIL) {
+        deliveries.push(sendEmail({
+          from: env.RESEND_FROM_EMAIL || 'Trifold <onboarding@resend.dev>',
+          to: [env.RESEND_NOTIFY_EMAIL],
+          subject: 'Nuevo registro en la lista de espera de Trifold',
+          text: 'Se guardó un nuevo registro en la lista de espera de Trifold. Revisa tu segmento de Trifold en Resend para ver los detalles.',
+        }, `trifold-owner/${contact.id}`, 'owner notification'));
+      }
+      if (env.RESEND_FROM_EMAIL) {
+        const hash = createHash('sha256').update(email).digest('hex');
+        deliveries.push(sendEmail({
+          from: env.RESEND_FROM_EMAIL, to: [email],
+          ...(env.RESEND_REPLY_TO ? { reply_to: env.RESEND_REPLY_TO } : {}),
+          subject: "You're on the Trifold waitlist",
+          text: "Thanks for joining the Trifold waitlist! We'll email you when early access is available.\n\nTrifold — shared finances, simplified.",
+        }, `trifold-welcome/${hash}`, 'receipt'));
+      }
+      await Promise.all(deliveries);
       return json(200, { success: true });
     } catch {
       // Never log addresses, keys, or provider response bodies.
