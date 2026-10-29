@@ -5,7 +5,7 @@ Waitlist landing page for **Trifold**, the budgeting app for couples. Built with
 ## Structure
 
 - `src/app/app.component.*` — page shell: nav, hero, stats, features, how-it-works, FAQ, final CTA, footer
-- `src/app/components/phone-preview/` — the interactive Personal ↔ Household iPhone mock (pure CSS + signals)
+- `src/app/components/phone-preview/` — the interactive Personal ↔ Household ↔ Budgets iPhone mock (pure CSS + signals, sample data only)
 - `src/app/components/waitlist-form/` — email capture form (Resend through a Netlify Function), used in hero and CTA
 - `src/styles.css` — design tokens and shared `.btn` / `.eyebrow` classes
 

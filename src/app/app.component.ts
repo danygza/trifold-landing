@@ -25,16 +25,16 @@ export class AppComponent {
       text: "Invite your partner and see a shared household balance next to your personal one — with each person's spending in its own color.",
     },
     {
-      icon: 'split',
+      icon: 'timer',
       tint: 'green',
-      title: 'Split shared costs',
-      text: "Rent, groceries, the dog's vet bill — split any expense fairly between partners and watch both balances update instantly.",
+      title: 'Pause before you buy',
+      text: "Park something you're tempted by, wait, then choose. It's a private space — only you see it, even when you share a household.",
     },
     {
       icon: 'plus',
       tint: 'purple',
       title: 'Fast expense entry',
-      text: 'Add an expense in seconds. Tag it, split it or leave it — Trifold keeps the running total and your remaining budget honest.',
+      text: 'Add an expense in seconds. Trifold keeps the running total and your remaining budget honest.',
     },
     {
       icon: 'chart',
@@ -64,7 +64,7 @@ export class AppComponent {
     {
       num: '03',
       title: 'Track together',
-      text: 'Log expenses, split shared costs, and watch your personal and household balances stay in sync.',
+      text: 'Log expenses and watch your personal and household balances stay in sync.',
     },
   ] as const;
 
@@ -87,7 +87,7 @@ export class AppComponent {
     },
     {
       q: 'How does the partner view work?',
-      a: 'Each person keeps a personal balance, and either of you can invite the other to a household space. Shared spending shows in both colors, and either partner can split any cost.',
+      a: "Each person keeps a personal balance, and either of you can invite the other to a household space. Each person's spending shows in their own color, so you always see who spent what.",
     },
     {
       q: 'Is my financial data safe?',

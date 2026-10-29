@@ -1,14 +1,7 @@
 <header class="nav">
   <div class="container nav__inner">
-    <a class="brand" href="#top">
-      <span class="brand__mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none">
-          <rect x="8" y="14" width="48" height="10" rx="5" fill="#7b5cf5" />
-          <rect x="8" y="28" width="48" height="10" rx="5" fill="#7b5cf5" />
-          <rect x="8" y="42" width="30" height="10" rx="5" fill="#7b5cf5" />
-        </svg>
-      </span>
-      Trifold
+    <a class="brand" href="#top" aria-label="Trifold home">
+      <img class="brand__logo" src="brand/trifold-wordmark-web.png" alt="Trifold" width="150" height="60">
     </a>
     <nav class="nav__links" aria-label="Primary">
       <a href="#features">Features</a>
@@ -86,13 +79,13 @@
                     <circle cx="9" cy="9" r="4.2" stroke="currentColor" stroke-width="2.2" />
                     <circle cx="15.5" cy="15.5" r="3.8" stroke="currentColor" stroke-width="2.2" />
                   }
-                  @case ('split') {
+                  @case ('timer') {
+                    <circle cx="12" cy="13.5" r="6.5" stroke="currentColor" stroke-width="2.2" />
                     <path
-                      d="M4 8h13m0 0-3-3m3 3-3 3M20 16H7m0 0 3-3m-3 3 3 3"
+                      d="M12 10.5v3.5l2 1.2M10 3.5h4M12 3.5V7"
                       stroke="currentColor"
                       stroke-width="2.2"
                       stroke-linecap="round"
-                      stroke-linejoin="round"
                     />
                   }
                   @case ('plus') {
