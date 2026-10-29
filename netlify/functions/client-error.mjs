@@ -2,6 +2,7 @@ import { createLimiter, reportIssue } from '../lib/operations.mjs';
 export const config = { path: '/api/client-error', rateLimit: { action: 'rate_limit', windowLimit: 5, windowSize: 60, aggregateBy: ['ip', 'domain'] } };
 const admit = createLimiter();
 export default async (req, context = {}) => {
+  if (new URL(req.url).pathname !== '/api/client-error') return new Response(null, { status: 404 });
   if (req.method !== 'POST') return new Response(null, { status: 405 });
   if (req.headers.get('origin') !== new URL(req.url).origin) return new Response(null, { status: 403 });
   if (!admit(context.ip)) return new Response(null, { status: 429 });

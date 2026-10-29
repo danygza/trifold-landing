@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 test('signup handles loading, success, server failure and rate limits', async ({page}) => {
  await page.goto('/');
  const input=page.getByRole('textbox',{name:'Email address'}).first();
- const submit=page.getByRole('button',{name:'Join waitlist',exact:true}).first();
+ const submit=page.locator('app-waitlist-form').first().getByRole('button');
  await input.fill('slow@example.test');await submit.click();
  await expect(submit).toBeDisabled();await expect(submit).toHaveText('Joining…');
  await expect(page.getByText("You're on the list! We'll email you when early access is available.")).toBeVisible();await expect(input).toHaveValue('');
@@ -34,6 +34,7 @@ for (const width of [320,375,768,1280]) {
   const bounds=await page.locator('.phone').boundingBox();expect(bounds).not.toBeNull();expect(bounds!.x).toBeGreaterThanOrEqual(0);expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(width+1);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   for (const input of await page.getByRole('textbox',{name:'Email address'}).all()) { const b=await input.boundingBox();expect(b!.x+b!.width).toBeLessThanOrEqual(width+1); }
+  if(width===320) await test.info().attach('mobile-layout',{body:await page.screenshot(),contentType:'image/png'});
  });
 }
 
