@@ -5,7 +5,7 @@ const get = async path => {
  assert.equal(res.status,200,`${path} must load`);return res;
 };
 const home=await get('/');const html=await home.text();
-for(const item of ['Shared finances','static-features','static-faq','og:image','rel="canonical"','/privacy.html','/unsubscribe.html']) assert.ok(html.includes(item),`Missing ${item}`);
+for(const item of ['Shared finances','static-features','static-faq','og:image','rel="canonical"','/privacy','/unsubscribe']) assert.ok(html.includes(item),`Missing ${item}`);
 for(const name of ['x-content-type-options','content-security-policy','referrer-policy']) assert.ok(home.headers.get(name),`Missing ${name}`);
 for(const path of ['/privacy.html','/contact.html','/unsubscribe.html','/social-preview.png','/brand/trifold-wordmark-web.png']) await get(path);
 const cfg=await (await get('/.netlify/functions/analytics-config')).json();assert.ok(cfg.key && ['https://us.i.posthog.com','https://eu.i.posthog.com'].includes(cfg.host),'Analytics config missing');
