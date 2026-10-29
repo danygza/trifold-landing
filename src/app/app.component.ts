@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { AnalyticsService } from './services/analytics.service';
 import { PhonePreviewComponent } from './components/phone-preview/phone-preview.component';
 import { WaitlistFormComponent } from './components/waitlist-form/waitlist-form.component';
 
@@ -10,6 +11,8 @@ import { WaitlistFormComponent } from './components/waitlist-form/waitlist-form.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  readonly analytics = inject(AnalyticsService);
+  setAnalytics(allowed: boolean): void { this.analytics.setConsent(allowed); }
   readonly year = new Date().getFullYear();
   readonly features = [
     {
@@ -75,11 +78,11 @@ export class AppComponent {
     },
     {
       q: 'Is Trifold free?',
-      a: 'Trifold is free during the beta. At launch there will be a free tier and an affordable plus tier — early waitlist members get founder pricing.',
+      a: 'Pricing and beta terms are not final yet. We will share the details before inviting you to test or asking for payment.',
     },
     {
       q: 'When does it launch?',
-      a: "We're onboarding waitlist members in order starting early 2027. Joining the list locks your spot and your founder discount.",
+      a: "Trifold is in development. There is no confirmed launch date yet. Join the waitlist to hear when testing opens; joining does not guarantee access or a discount.",
     },
     {
       q: 'Do I have to connect my bank?',
@@ -90,8 +93,8 @@ export class AppComponent {
       a: "Each person keeps a personal balance, and either of you can invite the other to a household space. Each person's spending shows in their own color, so you always see who spent what.",
     },
     {
-      q: 'Is my financial data safe?',
-      a: 'Yes. Your data is encrypted in transit and at rest, and we never sell your information. You can export or delete everything at any time.',
+      q: 'What happens to my waitlist data?',
+      a: 'This landing page collects your email for early-access updates, not financial information. Resend stores the waitlist. You can request removal from the Leave the waitlist page. We will explain app data controls before testing begins.',
     },
   ];
 

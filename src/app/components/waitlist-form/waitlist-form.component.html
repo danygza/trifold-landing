@@ -1,3 +1,4 @@
+  <span class="loading-status" role="status">{{ sending() ? 'Joining the waitlist…' : '' }}</span>
 <form
   class="form"
   [class.form--centered]="variant() === 'centered'"
@@ -34,9 +35,8 @@
     aria-hidden="true"
   />
 
-  <p class="signup-note">Join for Trifold early-access and launch updates. You can unsubscribe from updates at any time.</p>
+  <p class="signup-note">Join for Trifold early-access and launch updates. <a href="/unsubscribe.html">Leave the waitlist</a> at any time. <a href="/privacy.html">Privacy</a>.</p>
 
-  <span class="loading-status" role="status">{{ sending() ? 'Joining the waitlist…' : '' }}</span>
   @if (message()) {
     <p
       [id]="feedbackId"

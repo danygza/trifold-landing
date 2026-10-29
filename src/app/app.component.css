@@ -9,7 +9,7 @@
 }
 
 .nav__inner {
-  height: 66px;
+  min-height: 66px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,12 +63,11 @@
 .hero {
   background: linear-gradient(180deg, #f6f3ff 0%, var(--white) 100%);
   border-bottom: 1px solid var(--line);
-  overflow: hidden;
 }
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 56px;
   align-items: center;
   padding: 84px 0 92px;
@@ -357,7 +356,11 @@
   }
 
   .nav__links {
-    display: none;
+    display: flex;
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
   }
 }
 
@@ -365,4 +368,24 @@
   .features {
     grid-template-columns: 1fr;
   }
+}
+
+.nav__inner > *, .hero__inner > * { min-width: 0; }
+.nav__links a, .footer__links a { display: inline-flex; align-items: center; min-height: 44px; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 20px; }
+.faq summary { min-height: 44px; }
+.analytics-choice { padding-block: 24px 40px; }
+.analytics-choice h2 { font-size: 1.1rem; }
+.analytics-choice p { margin-block: 12px; }
+.analytics-choice a { text-decoration: underline; }
+.analytics-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.secondary-btn { padding: 12px 20px; border: 1px solid var(--gray); border-radius: 14px; background: #fff; color: var(--ink); font: inherit; min-height: 44px; cursor: pointer; }
+@media (max-width: 900px) {
+ .nav__inner { flex-wrap: wrap; gap: 0 12px; padding-block: 4px; }
+ .nav__cta { padding-inline: 12px; }
+ .brand__logo { width: 132px; }
+}
+@media (max-width: 360px) {
+ .container { width: calc(100% - 32px); }
+ .hero h1 { font-size: 2.25rem; }
 }

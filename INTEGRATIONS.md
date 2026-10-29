@@ -12,7 +12,7 @@
    - `RESEND_REPLY_TO`: optional monitored email
 5. Redeploy after configuring variables.
 
-Flow: the browser submits to `/.netlify/functions/waitlist`; the function validates the request, checks for an existing contact, and saves new contacts in the waitlist segment. Only a persisted contact produces success. New contacts optionally receive a transactional signup receipt. Existing subscribed contacts are added to the segment; existing unsubscribed contacts retain their preference and receive no receipt. Repeated submissions never intentionally resubscribe someone. If an unsubscribed person wants to rejoin, handle that explicitly in a future subscription-preferences flow.
+Flow: the browser submits to `/api/waitlist`; the function validates the request, checks for an existing contact, and saves new contacts in the waitlist segment. Only a persisted contact produces success. New contacts optionally receive a transactional signup receipt. Existing subscribed contacts are added to the segment; existing unsubscribed contacts retain their preference and receive no receipt. Repeated submissions never intentionally resubscribe someone. If an unsubscribed person wants to rejoin, handle that explicitly in a future subscription-preferences flow.
 
 Receipt delivery is best effort after persistence: a receipt failure logs a generic warning without undoing the signup. Existing contacts do not trigger another receipt, including after an earlier delivery failure. Failed contact requests return a retryable error. Concurrent submissions may require a retry if the provider rejects a duplicate create. The browser preserves the address on failure. No existing Web3Forms subscribers are migrated automatically.
 
@@ -71,3 +71,7 @@ Deploy by linking the Git repository to Netlify (or using a Netlify CLI deploy t
 Set `RESEND_NOTIFY_EMAIL` in Netlify to the email used to create the Resend account, with Functions scope (or All scopes) and Production context. Keep `RESEND_FROM_EMAIL` unset to keep subscriber welcome emails disabled. Redeploy after changing the variable. New contacts then trigger an internal alert using `onboarding@resend.dev`; Resend restricts that sender to the account owner's email. A verified sender is required before sending to other addresses.
 
 The notification contains no subscriber address; check the Trifold segment in Resend for details. Existing contacts do not trigger alerts. Alerts are best effort after the contact is saved: failures are logged without undoing the signup, and there is no automatic retry queue. Check Resend email logs and the inbox to confirm delivery. This temporary test-domain arrangement is not a substitute for a verified production sender.
+
+## Quality and monitoring update
+
+See [REMEDIATION.md](REMEDIATION.md) for consent, operational alerts, hourly checks, manual removal requests, browser coverage and remaining human verification. Subscriber receipt emails stay disabled unless a verified sender is explicitly configured.
