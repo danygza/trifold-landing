@@ -544,9 +544,8 @@
   padding: 8px 16px;
   border-radius: 999px;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  /* Keep every selection state readable, including during rapid keyboard changes. */
+  transition: none;
 }
 
 .modes button:hover {
