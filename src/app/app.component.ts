@@ -46,7 +46,7 @@ export class AppComponent {
       icon: 'coin',
       tint: 'orange',
       title: 'Your currency, your language',
-      text: 'All countries and all currencies are supported. Choose English or Spanish as your app language.',
+      text: 'Choose English or Spanish as your app language. Supported countries and currencies will be confirmed before launch.',
     },
   ] as const;
 
@@ -71,7 +71,7 @@ export class AppComponent {
   readonly faqs = [
     {
       q: 'Which countries, currencies and languages are supported?',
-      a: 'Trifold supports all countries and all currencies. The app is available in English and Spanish only.',
+      a: 'Supported countries and currencies will be confirmed before launch. The app will be available in English and Spanish.',
     },
     {
       q: 'Is Trifold free?',
