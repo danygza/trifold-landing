@@ -8,6 +8,7 @@
 
 .form input[type='email'] {
   flex: 1;
+  width: 100%;
   min-width: 0;
   padding: 15px 18px;
   border: 1px solid var(--line);
@@ -62,3 +63,14 @@
 @media (max-width: 900px) { .form > button { align-self: stretch; } }
 
 .loading-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+:host { display: block; min-width: 0; width: 100%; }
+.form, .email-label, .form input[type=email] { width: 100%; max-width: 100%; min-width: 0; }
+.msg, .signup-note { overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+ .form { align-items: stretch; }
+ .email-label { flex: 0 1 auto; }
+ .signup-note, .msg { flex: 0 1 auto; }
+}
+
+.signup-note a { text-decoration: underline; text-underline-offset: 3px; }

@@ -1,7 +1,9 @@
 import { createHash } from 'node:crypto';
+import { createLimiter, reportIssue } from '../lib/operations.mjs';
 
 export const config = {
-  rateLimit: { windowLimit: 5, windowSize: 60, aggregateBy: ['ip'] },
+  path: '/api/waitlist',
+  rateLimit: { action: 'rate_limit', windowLimit: 5, windowSize: 60, aggregateBy: ['ip', 'domain'] },
 };
 
 const json = (status, body) => Response.json(body, {
@@ -10,7 +12,10 @@ const json = (status, body) => Response.json(body, {
 
 // Dependency injection keeps tests offline and prevents test emails being sent.
 export function createHandler({ env = process.env, request = fetch } = {}) {
-  return async (req) => {
+  const admit = createLimiter();
+  return async (req, context = {}) => {
+    if (new URL(req.url).pathname !== '/api/waitlist') return json(404, { success: false });
+    if (!admit(context.ip)) return json(429, { success: false, error: 'rate_limited' });
     if (req.method !== 'POST') return json(405, { success: false });
     const origin = req.headers.get('origin');
     if (!origin || origin !== new URL(req.url).origin) return json(403, { success: false });
@@ -37,7 +42,7 @@ export function createHandler({ env = process.env, request = fetch } = {}) {
         ...options,
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`,
           'Content-Type': 'application/json', ...options.headers },
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(6000),
       });
     }
     try {
@@ -70,8 +75,8 @@ export function createHandler({ env = process.env, request = fetch } = {}) {
             body: JSON.stringify(payload),
           });
           const result = await sent.json();
-          if (!sent.ok || !result.id) console.warn(`Trifold waitlist ${kind} failed`);
-        } catch { console.warn(`Trifold waitlist ${kind} failed`); }
+          if (!sent.ok || !result.id) await reportIssue(kind === 'receipt' ? 'receipt_error' : 'notification_error', { env, request });
+        } catch { await reportIssue(kind === 'receipt' ? 'receipt_error' : 'notification_error', { env, request }); }
       }
       const deliveries = [];
       if (env.RESEND_NOTIFY_EMAIL) {
@@ -95,7 +100,7 @@ export function createHandler({ env = process.env, request = fetch } = {}) {
       return json(200, { success: true });
     } catch {
       // Never log addresses, keys, or provider response bodies.
-      console.error('Trifold waitlist provider request failed');
+      await reportIssue('provider_error', { env, request, notify: true });
       return json(502, { success: false, error: 'provider_error' });
     }
   };

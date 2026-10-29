@@ -43,7 +43,7 @@ export class WaitlistFormComponent {
     this.analytics.track('waitlist_submit', this.variant());
     const data = new FormData(form);
     try {
-      const res = await fetch('/.netlify/functions/waitlist', {
+      const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.toLowerCase(), botcheck: !!data.get('botcheck') }),

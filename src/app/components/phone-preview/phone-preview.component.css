@@ -12,7 +12,7 @@
 
 /* ---------- Device ---------- */
 .phone {
-  width: 320px;
+  width: min(320px, 100%);
   background: var(--ink);
   border-radius: 46px;
   padding: 11px;
@@ -352,7 +352,7 @@
 
 .ai--orange {
   background: #f9eddc;
-  color: #b8741b;
+  color: var(--orange);
 }
 
 .ai--green {
@@ -482,7 +482,7 @@
   border-radius: 20px;
   font-size: 0.5rem;
   font-weight: 700;
-  color: #8f8c9f;
+  color: var(--gray);
 }
 
 .tab svg {
@@ -544,9 +544,8 @@
   padding: 8px 16px;
   border-radius: 999px;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  /* Keep every selection state readable, including during rapid keyboard changes. */
+  transition: none;
 }
 
 .modes button:hover {
@@ -561,4 +560,18 @@
 .modes button:focus-visible {
   outline: 2px solid var(--purple);
   outline-offset: 2px;
+}
+
+:host { width: 100%; min-width: 0; }
+.stage { width: 100%; min-width: 0; }
+.phone, .modes { max-width: 100%; }
+.phone__screen { height: auto; min-height: 664px; }
+.scroll { overflow: visible; padding-bottom: 110px; }
+.modes { flex-wrap: wrap; justify-content: center; }
+.modes button { min-height: 44px; padding: 10px 12px; }
+@media (max-width: 360px) {
+ .phone { border-radius: 36px; padding: 8px; }
+ .scroll { padding-inline: 10px; }
+ .balance__amount { font-size: 1.65rem; }
+ .person__top { flex-wrap: wrap; }
 }

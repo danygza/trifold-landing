@@ -1,3 +1,4 @@
+<a class="skip-link" href="#main-content">Skip to content</a>
 <header class="nav">
   <div class="container nav__inner">
     <a class="brand" href="#top" aria-label="Trifold home">
@@ -12,21 +13,22 @@
   </div>
 </header>
 
-<main id="top">
+<main id="main-content" tabindex="-1">
+  <span id="top"></span>
   <!-- ===== Hero ===== -->
   <section class="hero">
     <div class="container hero__inner">
       <div>
-        <span class="badge">Launching early 2027 — waitlist open</span>
+        <span class="badge">In development — waitlist open</span>
         <h1>Shared finances, <em>simplified.</em></h1>
         <p class="hero__sub">
-          Trifold gives you and your partner one calm place for money:
+          Trifold is being built to give you and your partner one calm place for money:
           an automatic <strong>50–30–20 split</strong>, a personal balance for
           each of you, and a <strong>household balance</strong> you both trust.
         </p>
         <app-waitlist-form />
         <p class="hero__note">
-          Free during beta · English &amp; Español
+          Early-access updates · English &amp; Español
         </p>
       </div>
 
@@ -119,7 +121,7 @@
     <div class="container">
       <p class="eyebrow">How it works</p>
       <h2 class="h2">Three steps to a budget you'll keep.</h2>
-      <p class="sub">Setup takes about five minutes — most of it is choosing your currency.</p>
+      <p class="sub">A look at the planned setup experience.</p>
       <div class="steps">
         @for (step of steps; track step.num) {
           <div class="step">
@@ -155,7 +157,7 @@
     <div class="container cta__inner">
       <p class="eyebrow">Waitlist</p>
       <h2 class="h2">Be first in the fold.</h2>
-      <p class="sub">Join the waitlist and get founder pricing when Trifold launches.</p>
+      <p class="sub">Get an email when testing opens. Availability and pricing will be shared before launch.</p>
       <app-waitlist-form variant="centered" />
     </div>
   </section>
@@ -164,9 +166,24 @@
 <footer class="footer">
   <div class="container footer__inner">
     <span>© {{ year }} Trifold Budget App</span>
+    <nav class="footer__links" aria-label="Information">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/unsubscribe.html">Leave the waitlist</a>
+    </nav>
     <span>
       Designed &amp; built by
       <a href="https://dg-development.netlify.app" target="_blank" rel="noopener noreferrer">Daniela Garza</a>
     </span>
   </div>
 </footer>
+
+<section class="analytics-choice container" aria-labelledby="analytics-title">
+  <h2 id="analytics-title">Optional analytics</h2>
+  <p>Allow PostHog to measure visits and signup completion? Email addresses are excluded, and session recording is off. <a href="/privacy.html">Privacy details</a></p>
+  <div class="analytics-actions">
+    <button class="btn" type="button" (click)="setAnalytics(true)" [attr.aria-pressed]="analytics.choice() === 'accepted'">Allow analytics</button>
+    <button class="secondary-btn" type="button" (click)="setAnalytics(false)" [attr.aria-pressed]="analytics.choice() === 'declined'">No thanks</button>
+  </div>
+  <p role="status">{{ analytics.choice() === 'accepted' ? 'Optional analytics enabled.' : analytics.choice() === 'declined' ? 'Optional analytics disabled.' : 'Analytics stays off until you choose.' }}</p>
+</section>

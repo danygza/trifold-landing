@@ -1,0 +1,40 @@
+name: Landing quality
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:integrations
+      - run: npm audit --audit-level=low
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:browser
+      - name: Measure mobile performance
+        run: |
+          node scripts/serve-preview.mjs &
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:8770/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npx --yes lighthouse@13.6.0 http://127.0.0.1:8770/ --only-categories=performance --chrome-flags="--headless --no-sandbox" --output=json --output-path=./lighthouse.json --quiet
+          node scripts/check-lighthouse.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-report
+          path: |
+            playwright-report/
+            lighthouse.json
+          retention-days: 7

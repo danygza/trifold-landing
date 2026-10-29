@@ -1,6 +1,6 @@
 # Trifold — Landing Page
 
-Waitlist landing page for **Trifold**, the budgeting app for couples. Built with **Angular 19 + TypeScript**, standalone components, plain CSS with the app's design tokens (violet `#7b5cf5`, lavender tints, 50–30–20 purple/orange/green accents, Inter).
+Waitlist landing page for **Trifold**, the budgeting app for couples. Built with **Angular 21 + TypeScript**, standalone components, plain CSS with the app's design tokens (violet `#7b5cf5`, lavender tints, 50–30–20 purple/orange/green accents, Inter).
 
 ## Structure
 
@@ -19,7 +19,7 @@ npm start          # dev server at http://localhost:4200
 ## Build
 
 ```bash
-npm run build      # production build -> dist/trifold-landing/browser
+npm run build      # production build + static initial HTML -> dist/trifold-landing/browser
 ```
 
 ## Deploy to Netlify
@@ -42,3 +42,7 @@ See [INTEGRATIONS.md](INTEGRATIONS.md) for account setup, environment variables,
 
 - The sandbox preview needs a single-file build: run `node scripts/inline-bundle.mjs` after `npm run build` to inline JS/CSS into `dist/trifold-landing/browser/index.html` (rebuilds restore the normal multi-file output).
 - `scripts/favicon-tile.html` is the source for the rendered `public/favicon.ico` (16/32/48).
+
+## Quality checks
+
+See [REMEDIATION.md](REMEDIATION.md). Use Node 24, `npm run test:integrations`, `npm run build`, and `npm run test:browser`. Browser tests use a local mock server and never send real email. GitHub runs the three browser engines and a scheduled production smoke check.
