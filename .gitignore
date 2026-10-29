@@ -6,3 +6,8 @@ out-tsc
 npm-debug.log*
 .freebuff/
 .vscode/
+
+.env
+.env.*
+!.env.example
+.netlify/

@@ -6,7 +6,7 @@ Waitlist landing page for **Trifold**, the budgeting app for couples. Built with
 
 - `src/app/app.component.*` — page shell: nav, hero, stats, features, how-it-works, FAQ, final CTA, footer
 - `src/app/components/phone-preview/` — the interactive Personal ↔ Household iPhone mock (pure CSS + signals)
-- `src/app/components/waitlist-form/` — email capture form (Web3Forms), used in hero and CTA
+- `src/app/components/waitlist-form/` — email capture form (Resend through a Netlify Function), used in hero and CTA
 - `src/styles.css` — design tokens and shared `.btn` / `.eyebrow` classes
 
 ## Run locally
@@ -34,9 +34,9 @@ npm run build      # production build -> dist/trifold-landing/browser
 
 `netlify.toml` is preconfigured: build `npm run build`, publish `dist/trifold-landing/browser`.
 
-## Before going live
+## Resend and PostHog
 
-- [x] **Waitlist form** — the shared Web3Forms form has the supplied access key configured for both waitlist placements. Delivery uses the email linked to that key.
+See [INTEGRATIONS.md](INTEGRATIONS.md) for account setup, environment variables, local development, testing, and deployment verification. The waitlist now requires Netlify Functions; static drag-and-drop hosting alone does not deploy these functions.
 
 ## Notes
 

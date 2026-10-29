@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-waitlist-form',
@@ -7,9 +9,11 @@ import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WaitlistFormComponent {
+  private readonly analytics = inject(AnalyticsService);
   /** 'centered' renders the stacked layout used in the final CTA section. */
   readonly variant = input<'default' | 'centered'>('default');
 
+  readonly feedbackId = `waitlist-feedback-${Math.random().toString(36).slice(2)}`;
   readonly sending = signal(false);
   readonly sent = signal(false);
   readonly failed = signal(false);
@@ -27,6 +31,7 @@ export class WaitlistFormComponent {
       this.sent.set(false);
       this.failed.set(true);
       this.message.set('Please enter a valid email address.');
+      this.analytics.track('waitlist_error', this.variant(), 'invalid_email');
       return;
     }
 
@@ -35,25 +40,29 @@ export class WaitlistFormComponent {
     this.failed.set(false);
     this.message.set('');
 
+    this.analytics.track('waitlist_submit', this.variant());
     const data = new FormData(form);
-    // Replies from the inbox go straight to the person who signed up
-    data.set('replyto', email);
-
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/.netlify/functions/waitlist', {
         method: 'POST',
-        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.toLowerCase(), botcheck: !!data.get('botcheck') }),
+        signal: AbortSignal.timeout(25000),
       });
-      if (res.ok) {
-        this.sent.set(true);
-        this.message.set("You're on the list — see you at launch. 🎉");
-        form.reset();
-      } else {
-        throw new Error('bad status');
-      }
-    } catch {
+      if (res.status === 429) throw new Error('rate_limited');
+      const result = await res.json();
+      if (!res.ok || result.success !== true) throw new Error('submission_failed');
+      this.sent.set(true);
+      this.message.set("You're on the list! We'll email you when early access is available.");
+      this.analytics.track('waitlist_success', this.variant());
+      form.reset();
+    } catch (error) {
+      const limited = error instanceof Error && error.message === 'rate_limited';
       this.failed.set(true);
-      this.message.set('Something went wrong — try again in a moment.');
+      this.message.set(limited
+        ? 'Too many attempts. Please wait a minute and try again.'
+        : 'We couldn’t confirm your signup. Please try again in a moment.');
+      this.analytics.track('waitlist_error', this.variant(), limited ? 'rate_limited' : 'submission_failed');
     } finally {
       this.sending.set(false);
     }

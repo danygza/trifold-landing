@@ -3,15 +3,23 @@
   [class.form--centered]="variant() === 'centered'"
   #form
   (submit)="onSubmit($event, form)"
+  [attr.aria-busy]="sending()"
   novalidate
 >
+  <label class="email-label">
+    <span>Email address</span>
   <input
     type="email"
     name="email"
     placeholder="you@email.com"
     required
+    autocomplete="email"
+    maxlength="254"
+    [attr.aria-describedby]="message() ? feedbackId : null"
+    [attr.aria-invalid]="failed() ? true : null"
     aria-label="Email address"
   />
+  </label>
   <button class="btn" type="submit" [disabled]="sending()">
     {{ sending() ? 'Joining…' : 'Join waitlist' }}
   </button>
@@ -25,12 +33,13 @@
     autocomplete="off"
     aria-hidden="true"
   />
-  <input type="hidden" name="access_key" value="aa87c335-3800-48a3-90c5-1c83fa9d676e" />
-  <input type="hidden" name="subject" value="Trifold waitlist signup" />
-  <input type="hidden" name="from_name" value="Trifold landing page" />
 
+  <p class="signup-note">Join for Trifold early-access and launch updates. You can unsubscribe from updates at any time.</p>
+
+  <span class="loading-status" role="status">{{ sending() ? 'Joining the waitlist…' : '' }}</span>
   @if (message()) {
     <p
+      [id]="feedbackId"
       class="msg"
       [class.msg--ok]="sent()"
       [class.msg--err]="failed()"
